@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías - ¿Qué Cocino Hoy?</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="d-flex flex-column align-items-start">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-utensils"></i> 
+                        <span class="ms-2">¿Qué Cocino Hoy?</span>
+                    </div>
+                    <small class="text-muted fst-italic" style="font-size: 0.75rem; margin-top: -2px;">
+                        Descubre, crea, disfruta
+                    </small>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="favoritos.html">Favoritos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="categorias.html">Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ingredientes.html">Ingredientes</a>
+                    </li>
+                    <li class="nav-item d-none" id="userSection5">
+                        <a class="nav-link" href="mis-recetas.html">Mis Recetas</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item" id="loginSection">
+                        <a class="nav-link" href="login.html">Iniciar Sesión</a>
+                    </li>
+                    <li class="nav-item d-none" id="userSection">
+                        <a class="nav-link" href="agregar-receta.html">Agregar Receta</a>
+                    </li>
+                    <li class="nav-item d-none" id="logoutSection">
+                        <div class="d-flex align-items-center">
+                            <div class="user-info me-3">
+                                <i class="fas fa-user-circle user-icon"></i>
+                                <span class="user-name" id="userName"></span>
+                            </div>
+                            <a class="nav-link logout-link" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>
+                        <i class="fas fa-tags"></i> Categorías
+                    </h2>
+                    <button class="btn btn-primary btn-elegante" id="btnAgregarCategoria" onclick="mostrarFormularioCategoria()">
+                        <i class="fas fa-plus"></i> Nueva Categoría
+                    </button>
+                </div>
+                
+                <!-- Mensaje cuando no hay categorías -->
+                <div id="noCategorias" class="sin-contenido d-none">
+                    <i class="fas fa-tags"></i>
+                    <h4>No hay categorías disponibles</h4>
+                    <p>Inicia sesión para agregar nuevas categorías</p>
+                </div>
+                
+                <!-- Lista de categorías -->
+                <div id="listaCategorias" class="row"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar/editar categoría -->
+    <div class="modal fade modal-elegante" id="categoriaModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCategoriaTitle">Nueva Categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCategoria">
+                        <input type="hidden" id="categoriaId" name="id">
+                        <div class="mb-3">
+                            <label for="nombreCategoria" class="form-label">Nombre de la Categoría</label>
+                            <input type="text" class="form-control form-control-elegante" id="nombreCategoria" name="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcionCategoria" class="form-label">Descripción</label>
+                            <textarea class="form-control form-control-elegante" id="descripcionCategoria" name="descripcion" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="iconoCategoria" class="form-label">Icono</label>
+                            <select class="form-control form-control-elegante" id="iconoCategoria" name="icono">
+                                <option value="">Seleccionar icono</option>
+                                <option value="fas fa-utensils">🍽️ Utensilios</option>
+                                <option value="fas fa-pizza-slice">🍕 Pizza</option>
+                                <option value="fas fa-hamburger">🍔 Hamburguesa</option>
+                                <option value="fas fa-ice-cream">🍦 Helado</option>
+                                <option value="fas fa-coffee">☕ Café</option>
+                                <option value="fas fa-wine-glass">🍷 Vino</option>
+                                <option value="fas fa-carrot">🥕 Vegetales</option>
+                                <option value="fas fa-apple-alt">🍎 Frutas</option>
+                                <option value="fas fa-fish">🐟 Pescado</option>
+                                <option value="fas fa-drumstick-bite">🍗 Pollo</option>
+                                <option value="fas fa-bread-slice">🍞 Pan</option>
+                                <option value="fas fa-cheese">🧀 Queso</option>
+                                <option value="fas fa-egg">🥚 Huevos</option>
+                                <option value="fas fa-milk">🥛 Lácteos</option>
+                                <option value="fas fa-pepper-hot">🌶️ Picante</option>
+                                <option value="fas fa-leaf">🌿 Hierbas</option>
+                                <option value="fas fa-seedling">🌱 Orgánico</option>
+                                <option value="fas fa-fire">🔥 Asado</option>
+                                <option value="fas fa-snowflake">❄️ Frío</option>
+                                <option value="fas fa-heart">❤️ Saludable</option>
+                                <option value="fas fa-star">⭐ Destacado</option>
+                                <option value="fas fa-crown">👑 Premium</option>
+                                <option value="fas fa-clock">⏰ Rápido</option>
+                                <option value="fas fa-users">👥 Familiar</option>
+                                <option value="fas fa-birthday-cake">🎂 Postres</option>
+                                <option value="fas fa-glass-whiskey">🥃 Bebidas</option>
+                                <option value="fas fa-cookie-bite">🍪 Galletas</option>
+                                <option value="fas fa-candy-cane">🍭 Dulces</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="colorCategoria" class="form-label">Color</label>
+                            <input type="color" class="form-control form-control-color form-control-elegante" id="colorCategoria" name="color" value="#007bff">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-elegante" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-elegante" onclick="guardarCategoria()">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div class="modal fade" id="confirmarEliminarModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que quieres eliminar esta categoría?</p>
+                    <p class="text-danger"><small>Esta acción no se puede deshacer.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-elegante" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger btn-elegante" onclick="eliminarCategoria()">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/bootstrap.bundle.js"></script>
+    <script src="assets/js/sweetalert2.all.min.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/categorias.js"></script>
+</body>
+</html> 

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Qué Cocino Hoy?</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="d-flex flex-column align-items-start">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-utensils"></i> 
+                        <span class="ms-2">¿Qué Cocino Hoy?</span>
+                    </div>
+                    <small class="text-muted fst-italic" style="font-size: 0.75rem; margin-top: -2px;">
+                        Descubre, crea, disfruta
+                    </small>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item" id="userSection">
+                        <a class="nav-link" href="favoritos.html">Favoritos</a>
+                    </li>
+                    <li class="nav-item" id="userSection2">
+                        <a class="nav-link" href="categorias.html">Categorías</a>
+                    </li>
+                    <li class="nav-item" id="userSection3">
+                        <a class="nav-link" href="ingredientes.html">Ingredientes</a>
+                    </li>
+                    <li class="nav-item d-none" id="userSection5">
+                        <a class="nav-link" href="mis-recetas.html">Mis Recetas</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item" id="loginSection">
+                        <a class="nav-link" href="login.html">Iniciar Sesión</a>
+                    </li>
+                    <li class="nav-item d-none" id="logoutSection">
+                        <div class="d-flex align-items-center">
+                            <div class="user-info me-3">
+                                <i class="fas fa-user-circle user-icon"></i>
+                                <span class="user-name" id="userName"></span>
+                            </div>
+                            <a class="nav-link logout-link" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container mt-4">
+        <!-- Buscador -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-3">
+                            <i class="fas fa-search"></i> Buscar Recetas
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <input type="text" class="form-control form-control-elegante" id="buscarNombre" placeholder="Buscar por nombre...">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <input type="text" class="form-control form-control-elegante" id="buscarIngrediente" placeholder="Buscar por ingrediente...">
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-elegante" onclick="buscarRecetas()">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                            <button class="btn btn-secondary btn-elegante" onclick="limpiarBusqueda()">
+                                <i class="fas fa-times"></i> Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados de búsqueda -->
+        <div id="resultadosBusqueda" class="row"></div>
+
+        <!-- Recetas destacadas -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3><i class="fas fa-star"></i> Recetas Destacadas</h3>
+                    <div id="botonCrearReceta" class="d-none">
+                        <a href="agregar-receta.html" class="btn btn-success btn-lg btn-elegante shadow-sm">
+                            <i class="fas fa-plus-circle me-2"></i> Crear Receta
+                        </a>
+                    </div>
+                </div>
+                <div id="recetasDestacadas" class="row"></div>
+            </div>
+        </div>
+
+        <!-- Sección para usuarios no autenticados -->
+        <div id="seccionNoAutenticado" class="row mt-5">
+            <div class="col-12">
+                <div class="card bg-light border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-utensils fa-4x text-muted mb-4"></i>
+                        <h3 class="mb-3">¿Tienes una receta deliciosa?</h3>
+                        <p class="text-muted mb-4 fs-5">Únete a nuestra comunidad y comparte tus mejores recetas con otros amantes de la cocina.</p>
+                        <div class="d-flex gap-3 justify-content-center">
+                            <a href="agregar-receta.html" class="btn btn-success btn-lg btn-elegante shadow-sm" onclick="verificarAutenticacionParaCrear()">
+                                <i class="fas fa-plus-circle me-2"></i> Crear Receta
+                            </a>
+                            <a href="login.html" class="btn btn-outline-primary btn-lg btn-elegante" id="botonIniciarSesion">
+                                <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/bootstrap.bundle.js"></script>
+    <script src="assets/js/sweetalert2.all.min.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/favoritos.js"></script>
+    <script src="assets/js/recetas.js"></script>
+</body>
+</html> 

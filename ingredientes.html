@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredientes - ¿Qué Cocino Hoy?</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="d-flex flex-column align-items-start">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-utensils"></i> 
+                        <span class="ms-2">¿Qué Cocino Hoy?</span>
+                    </div>
+                    <small class="text-muted fst-italic" style="font-size: 0.75rem; margin-top: -2px;">
+                        Descubre, crea, disfruta
+                    </small>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="favoritos.html">Favoritos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="categorias.html">Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="ingredientes.html">Ingredientes</a>
+                    </li>
+                    <li class="nav-item d-none" id="userSection5">
+                        <a class="nav-link" href="mis-recetas.html">Mis Recetas</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item" id="loginSection">
+                        <a class="nav-link" href="login.html">Iniciar Sesión</a>
+                    </li>
+                    <li class="nav-item d-none" id="userSection">
+                        <a class="nav-link" href="agregar-receta.html">Agregar Receta</a>
+                    </li>
+                    <li class="nav-item d-none" id="logoutSection">
+                        <div class="d-flex align-items-center">
+                            <div class="user-info me-3">
+                                <i class="fas fa-user-circle user-icon"></i>
+                                <span class="user-name" id="userName"></span>
+                            </div>
+                            <a class="nav-link logout-link" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>
+                        <i class="fas fa-carrot"></i> Ingredientes
+                    </h2>
+                    <button class="btn btn-primary btn-elegante" id="btnAgregarIngrediente" onclick="mostrarFormularioIngrediente()">
+                        <i class="fas fa-plus"></i> Nuevo Ingrediente
+                    </button>
+                </div>
+                
+                <!-- Buscador de ingredientes -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="input-group busqueda-container" id="busquedaContainer">
+                            <input type="text" class="form-control busqueda-input" id="buscarIngrediente" placeholder="Buscar ingrediente...">
+                            <button class="btn btn-outline-secondary busqueda-btn btn-elegante" type="button" onclick="buscarIngredientes()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <div id="indicadorBusqueda" class="mt-2" style="display: none;">
+                            <small class="text-muted">
+                                <i class="fas fa-spinner fa-spin"></i> Buscando...
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mensaje cuando no hay ingredientes -->
+                <div id="noIngredientes" class="text-center py-5 d-none">
+                    <i class="fas fa-carrot fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">No hay ingredientes disponibles</h4>
+                    <p class="text-muted">Inicia sesión para agregar nuevos ingredientes</p>
+                </div>
+                
+                <!-- Lista de ingredientes -->
+                <div id="listaIngredientes" class="row"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar/editar ingrediente -->
+    <div class="modal fade" id="ingredienteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalIngredienteTitle">Nuevo Ingrediente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formIngrediente">
+                        <input type="hidden" id="ingredienteId" name="id">
+                        <div class="mb-3">
+                            <label for="nombreIngrediente" class="form-label">Nombre del Ingrediente</label>
+                            <input type="text" class="form-control" id="nombreIngrediente" name="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoriaIngrediente" class="form-label">Categoría</label>
+                            <select class="form-select" id="categoriaIngrediente" name="categoria" onchange="actualizarUnidadBase()">
+                                <option value="">Seleccionar categoría</option>
+                                <option value="vegetales">Vegetales</option>
+                                <option value="frutas">Frutas</option>
+                                <option value="carnes">Carnes</option>
+                                <option value="pescados">Pescados</option>
+                                <option value="lacteos">Lácteos</option>
+                                <option value="cereales">Cereales</option>
+                                <option value="especias">Especias</option>
+                                <option value="otros">Otros</option>
+                                <option value="embutidos">Embutidos</option>
+                                <option value="panaderia">Panadería</option>
+                                <option value="bebidas">Bebidas</option>
+                                <option value="salsas">Salsas</option>
+                                <option value="mariscos">Mariscos</option>
+                                <option value="semillas">Semillas</option>
+                                <option value="aceites">Aceites</option>
+                                <option value="frutos_secos">Frutos secos</option>
+                                <option value="dulces">Dulces</option>
+                                <option value="conservas">Conservas</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="unidadIngrediente" class="form-label">Unidad de Medida</label>
+                            <select class="form-select" id="unidadIngrediente" name="unidad">
+                                <option value="gramos">Gramos (g)</option>
+                                <option value="kilogramos">Kilogramos (kg)</option>
+                                <option value="mililitros">Mililitros (ml)</option>
+                                <option value="litros">Litros (l)</option>
+                                <option value="tazas">Tazas</option>
+                                <option value="cucharadas">Cucharadas</option>
+                                <option value="cucharaditas">Cucharaditas</option>
+                                <option value="unidades">Unidades</option>
+                                <option value="dientes">Dientes</option>
+                                <option value="manojos">Manojos</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-elegante" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-elegante" onclick="guardarIngrediente()">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div class="modal fade" id="confirmarEliminarIngredienteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que quieres eliminar este ingrediente?</p>
+                    <p class="text-danger"><small>Esta acción no se puede deshacer.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-elegante" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger btn-elegante" onclick="eliminarIngrediente()">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/bootstrap.bundle.js"></script>
+    <script src="assets/js/sweetalert2.all.min.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/ingredientes.js"></script>
+</body>
+</html> 

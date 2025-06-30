@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Agregar Receta - ¿Qué Cocino Hoy?</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="d-flex flex-column align-items-start">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-utensils"></i> 
+                        <span class="ms-2">¿Qué Cocino Hoy?</span>
+                    </div>
+                    <small class="text-muted fst-italic" style="font-size: 0.75rem; margin-top: -2px;">
+                        Descubre, crea, disfruta
+                    </small>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="favoritos.html">Favoritos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="categorias.html">Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ingredientes.html">Ingredientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mis-recetas.html">Mis Recetas</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item" id="loginSection">
+                        <a class="nav-link" href="login.html">Iniciar Sesión</a>
+                    </li>
+                    <li class="nav-item d-none" id="userSection">
+                        <a class="nav-link" href="agregar-receta.html">Agregar Receta</a>
+                    </li>
+                    <li class="nav-item d-none" id="logoutSection">
+                        <div class="d-flex align-items-center">
+                            <div class="user-info me-3">
+                                <i class="fas fa-user-circle user-icon"></i>
+                                <span class="user-name" id="userName"></span>
+                            </div>
+                            <a class="nav-link logout-link" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0" id="formTitle">
+                            <i class="fas fa-plus-circle"></i> Agregar Nueva Receta
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="formReceta">
+                            <!-- Campo oculto para el ID de la receta (en caso de edición) -->
+                            <input type="hidden" id="recetaId" name="recetaId">
+                            
+                            <!-- Información básica -->
+                            <div class="row mb-4">
+                                <div class="col-md-8">
+                                    <label for="nombre" class="form-label">Nombre de la Receta *</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-2">
+                                    <label for="tiempo" class="form-label">Tiempo (minutos) *</label>
+                                    <input type="number" class="form-control" id="tiempo" name="tiempo" min="1" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="porciones" class="form-label">Porciones *</label>
+                                    <input type="number" class="form-control" id="porciones" name="porciones" min="1" value="4" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="dificultad" class="form-label">Dificultad *</label>
+                                    <select class="form-select" id="dificultad" name="dificultad" required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="Fácil">Fácil</option>
+                                        <option value="Media">Media</option>
+                                        <option value="Difícil">Difícil</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Pasos de preparación -->
+                            <div class="mb-4">
+                                <h5><i class="fas fa-tasks"></i> Pasos de Preparación</h5>
+                                <div id="pasosContainer">
+                                    <div class="paso-item mb-3">
+                                        <div class="d-flex align-items-start">
+                                            <span class="badge bg-primary me-2 mt-1">1</span>
+                                            <textarea class="form-control paso-texto" rows="2" placeholder="Describe el primer paso..." required></textarea>
+                                            <button type="button" class="btn btn-outline-danger btn-sm ms-2" onclick="eliminarPaso(this)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="agregarPaso()">
+                                    <i class="fas fa-plus"></i> Agregar Paso
+                                </button>
+                            </div>
+
+                            <!-- Botones -->
+                            <div class="d-flex justify-content-between">
+                                <a href="mis-recetas.html" class="btn btn-secondary btn-elegante">
+                                    <i class="fas fa-arrow-left"></i> Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-primary btn-elegante" id="submitButton">
+                                    <i class="fas fa-save"></i> Guardar Receta
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/bootstrap.bundle.js"></script>
+    <script src="assets/js/sweetalert2.all.min.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/agregar-receta.js"></script>
+</body>
+</html> 

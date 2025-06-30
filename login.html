@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - ¿Qué Cocino Hoy?</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="d-flex flex-column align-items-start">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-utensils"></i> 
+                        <span class="ms-2">¿Qué Cocino Hoy?</span>
+                    </div>
+                    <small class="text-muted fst-italic" style="font-size: 0.75rem; margin-top: -2px;">
+                        Descubre, crea, disfruta
+                    </small>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="favoritos.html">Favoritos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="categorias.html">Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ingredientes.html">Ingredientes</a>
+                    </li>
+                    <li class="nav-item d-none" id="userSection5">
+                        <a class="nav-link" href="mis-recetas.html">Mis Recetas</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item" id="loginSection">
+                        <a class="nav-link active" href="login.html">Iniciar Sesión</a>
+                    </li>
+                    <li class="nav-item d-none" id="userSection">
+                        <a class="nav-link" href="agregar-receta.html">Agregar Receta</a>
+                    </li>
+                    <li class="nav-item d-none" id="logoutSection">
+                        <div class="d-flex align-items-center">
+                            <div class="user-info me-3">
+                                <i class="fas fa-user-circle user-icon"></i>
+                                <span class="user-name" id="userName"></span>
+                            </div>
+                            <a class="nav-link logout-link" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h3 class="card-title text-center mb-4">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </h3>
+                        
+                        <form id="loginForm">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control form-control-elegante" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control form-control-elegante" id="password" name="password" required>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-elegante">
+                                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="text-center">
+                            <p class="mb-2">¿No tienes cuenta?</p>
+                            <button class="btn btn-outline-secondary btn-elegante" onclick="mostrarRegistro()">
+                                <i class="fas fa-user-plus"></i> Registrarse
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Formulario de Registro (oculto por defecto) -->
+                <div class="card shadow mt-3 d-none" id="registroCard">
+                    <div class="card-body">
+                        <h3 class="card-title text-center mb-4">
+                            <i class="fas fa-user-plus"></i> Registrarse
+                        </h3>
+                        
+                        <form id="registroForm">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control form-control-elegante" id="nombre" name="nombre" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="emailRegistro" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control form-control-elegante" id="emailRegistro" name="emailRegistro" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="passwordRegistro" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control form-control-elegante" id="passwordRegistro" name="passwordRegistro" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                                <input type="password" class="form-control form-control-elegante" id="confirmPassword" name="confirmPassword" required>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success btn-elegante">
+                                    <i class="fas fa-user-plus"></i> Registrarse
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="text-center">
+                            <button class="btn btn-outline-primary btn-elegante" onclick="mostrarLogin()">
+                                <i class="fas fa-sign-in-alt"></i> Ya tengo cuenta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/bootstrap.bundle.js"></script>
+    <script src="assets/js/sweetalert2.all.min.js"></script>
+    <script src="assets/js/auth.js"></script>
+</body>
+</html> 
